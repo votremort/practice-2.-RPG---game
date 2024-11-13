@@ -1,0 +1,88 @@
+*{
+  font-family: 'Josefin Sans', sans-serif;
+}
+body{
+  background-color:rgb(33, 53, 82);
+}
+/*стили текста*/
+.knight-title{
+  font-size: 36px;
+  text-align: center;
+  color:rgb(196, 196, 196);
+  text-shadow: 0 0 30px rgb(170, 179, 191);
+}
+.charact-title{
+  font-size: 24px;
+  text-align: center;
+  color:rgb(196, 196, 196);
+  text-shadow: 0 0 30px rgb(170, 179, 191);
+}
+.location-title{
+  font-size: 18px;
+  text-align: center;
+  color:rgb(33, 53, 82);
+  text-shadow: 0 0 20px rgb(51, 73, 106);
+}
+.game-container{
+  display: flex;
+  flex-direction: column;
+  max-width: 890px;
+  width: 100%;
+  margin: 20px auto;
+  gap: 50px;
+}
+
+.knight-container{
+  display: flex;
+  max-width: 890px;
+  padding: 10px 20px;
+  gap: 20px;
+  background-color:  rgb(88, 111, 144);
+  box-shadow: 0 0 10px rgb(170, 179, 191);
+}
+.knight-character{
+  max-width: 360px;
+  width: 100%;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(34, 102, 128);
+  box-shadow: 0 0 20px rgb(45, 119, 149);
+}
+.action-buttons{
+  display: flex;
+  flex-direction: column;
+  max-width: 200px;
+  padding: 10px;
+  width: 100%;
+  gap: 35px;
+}
+.action-btn{
+  max-width: 200px;
+  width: 100%;
+  background-color: rgb(196, 196, 196);
+  border: none;
+}
+.location-buttons{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 250px;
+  width: 100%;
+  align-items: center;
+  padding: 20px 0;
+  background-color: rgb(196, 196, 196);
+}
+.location-btn{
+  max-width: 200px;
+  width: 100%;
+  border: none;
+  background-color: rgb(34, 102, 128);
+}
+.game-field{
+  max-width: 890px;
+  width: 100%;
+  height: 200px;
+  background-color: rgb(196, 196, 196);
+}
