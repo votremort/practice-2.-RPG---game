@@ -15,20 +15,23 @@
     <div class="knight-container">
       <div class="knight-character">
         <span class="charact-title">Характеристики рыцаря</span>
+        <div class="charact-text" id="charactText"></div>
       </div>
       <div class="action-buttons">
-        <button class="action-btn">кнопка 1</button>
-        <button class="action-btn">кнопка 1</button>
-        <button class="action-btn">кнопка 1</button>
+        <button id="attackBtn" class="action-btn">Атаковать</button>
+        <button id="protectBtn" class="action-btn">Защищаться</button>
+        <button id="inventBtn" class="action-btn">Применить инвентарь</button>
       </div>
       <div class="location-buttons">
-        <span class="location-title">Сейчас рыцарь в замке</span>
-        <button class="location-btn">кнопка 1</button>
-        <button class="location-btn">кнопка 1</button>
-        <button class="location-btn">кнопка 1</button>
+        <span class="location-title" id="locationTitle">Сейчас рыцарь в замке</span>
+        <button id="forestBtn" class="location-btn">Пойти в лес</button>
+        <button id="bridgeBtn" class="location-btn">К разрушенному мосту</button>
+        <button id="caveBtn" class="location-btn">Изучить пещеру</button>
+        <button id="castleBtn" class="location-btn">Вернуться в замок</button>
       </div>
     </div>
-    <button id='startButton'>Старт</button>
+    <button id='startBtn'>Старт</button>
+    <button id='restartBtn'>Рестарт</button>
     <div class="game-field" id='gameField'></div>
   </div>
 </body>
