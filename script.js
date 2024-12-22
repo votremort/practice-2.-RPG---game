@@ -10,8 +10,28 @@ const knight = {
   },
 };
 
+const goblin = {
+  name: "Гоблин",
+  health: 30,
+  attack: 10, 
+  quantity: 1
+};
+const  orc = {
+  name: "Орк",
+  health: 50,
+  attack: 20, 
+  quantity: 1
+};
+const dragon = {
+  name: "Дракон",
+  health: 75,
+  attack: 35, 
+  quantity: 1
+};
+const enemies = [goblin, orc, dragon]
+
 const messages = {
-  enemysAttack: (enemyName) => `${enemy.name} атаковал вас. У рыцаря осталось ${Math.max(knight.health, 0)} единиц здоровья. У ${enemy.name} осталось ${Math.max(enemy.health, 0)} здоровья.`,
+  enemysAttack: (enemyName) => `${enemyName} атаковал вас. У рыцаря осталось ${Math.max(knight.health, 0)} единиц здоровья. У ${enemyName} осталось ${Math.max(enemy.health, 0)} здоровья.`,
   loss: 'Вы погибли. Игра окончена'
 }
 
@@ -44,6 +64,28 @@ startBtn.onclick = startGame;
 function printText(text) {
   gameField.innerHTML += `${text}<br>`
 }
+//блокировка кнопок
+function disableButton(buttons) {
+  buttons.forEach(btn => btn.disabled = true);
+}
+//активация кнопок
+function enableButton(buttons) {
+  buttons.forEach(btn => btn.disabled = false);
+}
+//обновление рыцаря
+function resetKnight() {
+  knight.health = 100;
+  knight.attack = 20;
+  knight.protection = 30;
+  knight.inventory = {
+    healthPotion: 1,
+    attackPotion: 1, 
+    shield: 1
+  }
+}
+
+//отключение всех кнопок кроме старта на начало игры
+disableButton([...locationsBtn, ...actionsBtn]);
 
 function showCharact(knight) {
   let info = `
@@ -64,48 +106,42 @@ function khightDeath(knight) {
   if (knight.health <= 0) {
     printText(messages.loss);
 
-    //отключение кнопок локации
-    locationsBtn.forEach(btn => btn.disabled = true); 
-    //отключение кнопок действий
-    actionsBtn.forEach(btn => btn.disabled = true);
+    //отключение кнопок локации, действий
+    disableButton([...locationsBtn, ...actionsBtn]);
     //активация кнопки старта
     startBtn.disabled = false;
   }
+  showCharact(knight);
 }
 
 function startGame() {
   gameField.innerHTML = ' ';
-  // отключение кнопки после нажатия на нее
+  // отключение кнопки старта
   startBtn.disabled = true; 
+  
   //активация кнопок локации
-  locationsBtn.forEach(btn => btn.disabled = false);
-  //активация кнопок действий
-  actionsBtn.forEach(btn => btn.disabled = false);
+  enableButton(locationsBtn);
+  castleBtn.disabled = true;
+  inventBtn.disabled = false;
+ 
 
   printText('Добро пожаловать в игру! Вы находитесь в замке. Выбирайте куда отправиться и удачного приключения!')
   currentLocation = 'castle';
-
-  knight = {
-    health: 100,
-    attack: 20,
-    protection: 30,
-    inventory: { healthPotion: 1, attackPotion: 1,  shield: 1 },
-  }
+  locationTitle.innerHTML = `Сейчас рыцарь в замке`
+  resetKnight();
   
   showCharact(knight);
 }
 
-function changeLocation(location, locationName, enemyName, enemyHealth, enemyAttack){
-  //отключение  кнопок локации
-  locationsBtn.forEach(btn => btn.disabled = true); 
-
+function changeLocation(location, locationName, enemy){
+  startBtn.disabled = false;
   currentLocation = location;
   locationTitle.innerHTML = `Сейчас рыцарь ${locationName}`
   showCharact(knight);
-  if (enemyName) {
-    enemy = { name: enemyName, health: enemyHealth, attack: enemyAttack}
-    printText(`Вы ${locationName} и повстречали ${enemyName}.
-      У него ${enemyHealth} единиц здоровья!`)
+  if (enemy) {
+    // enemy = { name: enemy.name, health: enemy.health, attack: enemy.attack}
+    printText(`Вы ${locationName} и повстречали ${enemy.name}.
+      У него ${enemy.health} единиц здоровья!`)
     printText('Атакуйте или защищайтесь.')  
     
   } else {
@@ -115,21 +151,28 @@ function changeLocation(location, locationName, enemyName, enemyHealth, enemyAtt
 }
 
 castleBtn.onclick = function() { 
+  enableButton(locationsBtn)
+  disableButton(actionsBtn)
+  inventBtn.disabled = false;
+  castleBtn.disabled = true;
   changeLocation('castle', 'в замке')
 }
 forestBtn.onclick = function() { 
+  enableButton([...locationsBtn, ...actionsBtn])
   forestBtn.disabled = true;
-  changeLocation('forest', 'в лесу', 'Гоблин', 30, 10)
+  changeLocation('forest', 'в лесу', goblin)
 }
 
 bridgeBtn.onclick = function() { 
+  enableButton([...locationsBtn, ...actionsBtn])
   bridgeBtn.disabled = true;
-  changeLocation('bridge','у моста', 'Орк', 50, 20)
+  changeLocation('bridge','у моста', orc)
 }
 
 caveBtn.onclick = function() { 
+  enableButton([...locationsBtn, ...actionsBtn])
   caveBtn.disabled = true;
-  changeLocation('cave', 'в пещере', 'Дракон', 90, 40)
+  changeLocation('cave', 'в пещере', dragon)
 }
 
 function knightsAttack() {
@@ -143,8 +186,10 @@ function knightsAttack() {
   if (enemy.health <= 0) {
     printText(`Рыцарь победил ${enemy.name}. Выбирайте куда идти дальше!`);
     
-    //активация кнопок локации
-    locationsBtn.forEach(btn => btn.disabled = false); 
+    //активация кнопок локации, блокировка действий
+    enableButton(locationsBtn);
+    disableButton(actionsBtn);
+    inventBtn.disabled = false;
 
     enemy = null; //удаляем врага
     showCharact(knight);
@@ -157,36 +202,34 @@ function knightsAttack() {
 
   //Проверка: рыцарь погиб
   khightDeath(knight)
-  // if (knight.health <= 0) {
-  //   printText(messages.loss);
-
-  //   //отключение кнопок локации
-  //   locationsBtn.forEach(btn => btn.disabled = true); 
-
-  //   startBtn.disabled = false;
-  // }
-
-  showCharact(knight);
 }
 
 attackBtn.onclick = knightsAttack;
 
 function knightsProtect() {
+  if (!enemy) return;
   printText(`Вы защищаетесь! Ваша защита составляет ${knight.protection} единиц.`);
   showCharact(knight);
   knight.health -= Math.max(0, enemy.attack - knight.protection);
   enemy.health -= 5
   printText(messages.enemysAttack(enemy.name));
   showCharact(knight);
-  if (knight.health <= 0) {
-    printText(messages.loss);
 
-    //отключение кнопок локации
-    locationsBtn.forEach(btn => btn.disabled = true); 
-    startBtn.disabled = false;
+  //Проверка: враг побежден
+  if (enemy.health <= 0) {
+    printText(`Рыцарь победил ${enemy.name}. Выбирайте куда идти дальше!`);
+    
+    //активация кнопок локации, блокировка действий
+    enableButton(locationsBtn);
+    disableButton(actionsBtn);
+    inventBtn.disabled = false;
 
+    enemy = null; //удаляем врага
     showCharact(knight);
+    return;
   }
+    //Проверка: рыцарь погиб
+  khightDeath(knight);
 }
 
 protectBtn.onclick = knightsProtect;
@@ -204,7 +247,7 @@ function useItem(item) {
       printText(`Вы использовали зелье здоровья. 
         Ваше здоровье теперь составляет ${knight.health} единиц.`);
     } else if (item === 'зелье силы' && knight.inventory.attackPotion > 0) {
-      knight.attack += 5;
+      knight.attack += 15;
       knight.inventory.attackPotion--;
       showCharact(knight);
       printText(`Вы использовали зелье силы. 
