@@ -17,6 +17,9 @@ body{
   color:rgb(196, 196, 196);
   text-shadow: 0 0 30px rgb(170, 179, 191);
 }
+.charact-text{
+  margin: auto;
+}
 .charactString{
   margin: 5px;
 }
@@ -37,9 +40,8 @@ body{
   max-width: 890px;
   width: 100%;
   margin: 20px auto;
-  gap: 50px;
+  gap: 30px;
 }
-
 .knight-container{
   display: flex;
   max-width: 890px;
@@ -64,14 +66,28 @@ body{
   max-width: 200px;
   padding: 10px;
   width: 100%;
+  margin: auto;
   gap: 35px;
 }
 .action-btn{
   max-width: 200px;
   width: 100%;
   background-color: rgb(196, 196, 196);
+  border-radius: 10px;
+  padding: 5px;
   border: none;
 }
+.start-btn{
+  max-width: 450px;
+  width: 100%;
+  margin: 0 auto;
+  background-color: rgb(196, 196, 196);
+  border-radius: 10px;
+  padding: 15px;
+  border: none;
+  font-size: 18px;
+}
+
 .location-buttons{
   display: flex;
   flex-direction: column;
@@ -87,6 +103,8 @@ body{
   width: 100%;
   border: none;
   background-color: rgb(34, 102, 128);
+  border-radius: 10px;
+  padding: 5px;
 }
 .game-field{
   overflow-y: scroll;

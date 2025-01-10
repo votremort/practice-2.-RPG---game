@@ -16,18 +16,21 @@ const goblin = {
   attack: 10, 
   quantity: 1
 };
+
 const  orc = {
   name: "Орк",
   health: 50,
   attack: 20, 
   quantity: 1
 };
+
 const dragon = {
   name: "Дракон",
   health: 75,
   attack: 35, 
   quantity: 1
 };
+
 const enemies = [goblin, orc, dragon]
 
 const messages = {
@@ -62,7 +65,8 @@ startBtn.onclick = startGame;
 
 //вспомогательные функции
 function printText(text) {
-  gameField.innerHTML += `${text}<br>`
+  gameField.innerHTML += `${text}<br>`;
+  gameField.scrollTop = gameField.scrollHeight;
 }
 //блокировка кнопок
 function disableButton(buttons) {
@@ -105,6 +109,7 @@ showCharact(knight);
 function khightDeath(knight) {
   if (knight.health <= 0) {
     printText(messages.loss);
+    alert('Вы погибли. Начните игру заново, нажав старт.')
 
     //отключение кнопок локации, действий
     disableButton([...locationsBtn, ...actionsBtn]);
@@ -133,13 +138,13 @@ function startGame() {
   showCharact(knight);
 }
 
-function changeLocation(location, locationName, enemy){
+function changeLocation(location, locationName, someEnemy){
   startBtn.disabled = false;
   currentLocation = location;
   locationTitle.innerHTML = `Сейчас рыцарь ${locationName}`
   showCharact(knight);
-  if (enemy) {
-    // enemy = { name: enemy.name, health: enemy.health, attack: enemy.attack}
+  if (someEnemy) {
+    enemy = { name: someEnemy.name, health: someEnemy.health, attack: someEnemy.attack}
     printText(`Вы ${locationName} и повстречали ${enemy.name}.
       У него ${enemy.health} единиц здоровья!`)
     printText('Атакуйте или защищайтесь.')  
@@ -185,6 +190,7 @@ function knightsAttack() {
   //Проверка: враг побежден
   if (enemy.health <= 0) {
     printText(`Рыцарь победил ${enemy.name}. Выбирайте куда идти дальше!`);
+    alert('Вы победили! Выберите следующую локацию!')
     
     //активация кнопок локации, блокировка действий
     enableButton(locationsBtn);
@@ -218,6 +224,7 @@ function knightsProtect() {
   //Проверка: враг побежден
   if (enemy.health <= 0) {
     printText(`Рыцарь победил ${enemy.name}. Выбирайте куда идти дальше!`);
+    alert('Вы победили! Выберите следующую локацию!')
     
     //активация кнопок локации, блокировка действий
     enableButton(locationsBtn);
